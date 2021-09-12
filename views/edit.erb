@@ -1,3 +1,8 @@
 <section class="center-vertical">
 	<h1>コメントの更新</h1>
+	<p>曲名:<%= @post.song_title %></p>
+	<form action="/post/<%= @post.id %>/update" method="post">
+		<input type="text" name="text" placeholder="<%= @post.text %>">
+		<input type="submit" value="投稿">
+	</form>
 </section>

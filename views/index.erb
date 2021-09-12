@@ -1,26 +1,39 @@
 <section class="first-view center-vertical">
 	<h1>MUSIC SNS!!!</h1>
+	<% unless session[:user] %>
 	<div class="login_button">
+		<form action="/signin" method="post">
+		    <input type="text" name="name" placeholder="ユーザー名">
+		    <input type="password" name="password" placeholder="パスワード">
+		    <input type="submit" value="ログイン">
+		</form>
 	</div>
+	<% end %>
 </section>
 
 <section class="center-vertical">
 	<h1>最新の投稿</h1>
-
+	
+	<% if !@posts.nil? %>
+	<% @posts.each do |post| %>
 	<div class="post center-vertical">
-		<img src="" width="125" height="125">
-		<p>artist: 〇〇</p>
-		<p>コメント: 〇〇</p>
-		<p>投稿者: 〇〇<br>
-			<a href="#">フォローする</a>
-			<a href="#">">フォロー解除</a><br>
-		</p>
+		<img src="<%= post.song_icon %>" width="125" height="125">
+		<p>artist: <%= post.song_artist %></p>
+		<p>コメント: <%= post.text %></p>
+		<p>投稿者: <%= @users.find(post.user_id).name %></p>
 		<p>いいねしたユーザー<br>
 			<img src="" alt="user_image" width="40" height="40">
 		</p>
 		<a href="#">いいねする</a>
+		<% if current_user = post.user_id %>
+			<a href="/post/<%= post.id %>/edit">コメントを編集する</a>
+			<form action="/post/<%= post.id %>/delete" method="post">
+				<input type="submit" value="投稿を削除する">
+			</form>
+		<% end %>
 	</div>
-
-	<%# TODO: ここで分岐 %>
+	<% end %>
+	<% else %>
 	<p>投稿がありません</p>
+	<% end %>
 </section>

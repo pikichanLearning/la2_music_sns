@@ -7,10 +7,14 @@
 	<link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
 <body>
 <nav class="center-hrizontal">
-	<a href="#">MUSIC SNS!!!</a>
-	<a href="#"><img src="" alt="user_image" width="40" height="40"></a></li>
-	<a href="#">search</a></li>
-	<a href="#">logout</a>
+	<a href="/">MUSIC SNS!!!</a>
+	<% if session[:user] %>
+	<a href="/home"><img src="<%= current_user.icon %>" alt="user_image" width="40" height="40"></a></li>
+	<a href="/search">search</a></li>
+	<a href="/signout">logout</a>
+	<% else %>
+	<a href="/signup">新規登録</a>
+	<% end %>
 </nav>
 <main>
 

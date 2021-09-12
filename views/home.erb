@@ -1,18 +1,20 @@
-<section class="center-vertical">
-	<h1>〇〇の投稿</h1>
-	<p>投稿がありません</p>
-</section>
-
-<section class="center-vertical">
-	<h1>〇〇のイイねした投稿</h1>
-	<p>イイねがありません</p>
-</section>
-
-<section class="center-vertical">
-	<h1>〇〇 のフォロー</h1>
-	<a href="#">フォロー解除</a><br>
-</section>
-
-<section class="center-vertical">
-	<h1>〇〇のフォロワー</h1>
-</section>
+<h1>自分の投稿</h1>
+    <% @posts.each do |post| %>
+		<% if current_user = post.user_id %>
+        <div class="post center-vertical">
+		<img src="<%= post.song_icon %>" width="125" height="125">
+		<p>artist: <%= post.song_artist %></p>
+		<p>コメント: <%= post.text %></p>
+		<p>投稿者: <%= User.find(post.user_id).name %></p>
+		<p>いいねしたユーザー<br>
+			<img src="" alt="user_image" width="40" height="40">
+		</p>
+		<a href="">いいねする</a>
+			<a href="/post/<%= post.id %>/edit">コメントを編集する</a>
+			<form action="/post/<%= post.id %>/delete" method="post">
+				<input type="submit" value="投稿を削除する">
+			</form>
+		<% end %>
+	<% end %>
+	</div>
+<h1>自分がいいねした投稿</h1>
