@@ -14,17 +14,23 @@
 <section class="center-vertical">
 	<h1>最新の投稿</h1>
 	
-	<% if !@posts.nil? %>
-	<% @posts.each do |post| %>
+	<% if !posts.nil? %>
+	<% posts.each do |post| %>
 	<div class="post center-vertical">
 		<img src="<%= post.song_icon %>" width="125" height="125">
 		<p>artist: <%= post.song_artist %></p>
 		<p>コメント: <%= post.text %></p>
-		<p>投稿者: <%= @users.find(post.user_id).name %></p>
+		<p>投稿者: <%= users.find(post.user_id).name %></p>
 		<p>いいねしたユーザー<br>
-			<img src="" alt="user_image" width="40" height="40">
+		<% likes.each do |like| %>
+			<% if post.id == like.post_id %>
+				<img src="<%= users.find(like.user_id).icon %>" alt="user_image" width="40" height="40">
+			<% end %>
+		<% end %>
 		</p>
-		<a href="#">いいねする</a>
+		<form action="/like/<%= post.id %>" method="post">
+			<input type="submit" value="いいねする">
+		</form>
 		<% if current_user = post.user_id %>
 			<a href="/post/<%= post.id %>/edit">コメントを編集する</a>
 			<form action="/post/<%= post.id %>/delete" method="post">

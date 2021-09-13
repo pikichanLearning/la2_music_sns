@@ -1,20 +1,37 @@
 <h1>自分の投稿</h1>
-    <% @posts.each do |post| %>
-		<% if current_user = post.user_id %>
+    <% posts.each do |post| %>
+   	<% if current_user.id == post.user_id %>   
         <div class="post center-vertical">
 		<img src="<%= post.song_icon %>" width="125" height="125">
 		<p>artist: <%= post.song_artist %></p>
 		<p>コメント: <%= post.text %></p>
 		<p>投稿者: <%= User.find(post.user_id).name %></p>
 		<p>いいねしたユーザー<br>
-			<img src="" alt="user_image" width="40" height="40">
+		<% likes.each do |like| %>
+			<% if post.id == like.post_id %>
+				<img src="<%= users.find(like.user_id).icon %>" alt="user_image" width="40" height="40">
+			<% end %>
+		<% end %>
 		</p>
-		<a href="">いいねする</a>
 			<a href="/post/<%= post.id %>/edit">コメントを編集する</a>
 			<form action="/post/<%= post.id %>/delete" method="post">
 				<input type="submit" value="投稿を削除する">
 			</form>
-		<% end %>
+	<% end %>
 	<% end %>
 	</div>
+<br>
 <h1>自分がいいねした投稿</h1>
+	<% if !current_user.like_posts.nil? %>
+	<% current_user.like_posts.each do |p| %>
+	<div class="post center-vertical">
+		<div class="post center-vertical">
+		<img src="<%= p.song_icon %>" width="125" height="125">
+		<p>artist: <%= p.song_artist %></p>
+		<p>コメント: <%= p.text %></p>
+		<p>投稿者: <%= User.find(p.user_id).name %></p>
+	</div>
+	<% end %>
+	<% else %>
+	<p>まだいいねしていません</p>
+	<% end %>

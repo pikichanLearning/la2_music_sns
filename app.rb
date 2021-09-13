@@ -13,6 +13,15 @@ helpers do
     def current_user
         User.find_by(id: session[:user])
     end
+    def users
+        User.all
+    end
+    def posts
+        Post.all
+    end
+    def likes
+        Like.all
+    end
 end
 
 before do
@@ -26,8 +35,7 @@ before do
 end
 
 get '/' do
-    @posts = Post.all
-    @users = User.all
+    logger.info @likes
     erb :index
 end
 
@@ -108,6 +116,13 @@ post '/post/:id/delete' do
 end
 
 get '/home' do
-    @posts = current_user.posts
     erb :home
+end
+
+post '/like/:id' do
+    like = Like.create(
+        user_id: current_user.id,
+        post_id: params[:id]
+        )
+    redirect '/'
 end
